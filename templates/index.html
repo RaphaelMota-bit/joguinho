@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Início - Sorteio</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #ADD8E6; /* Azul claro */
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        h1 {
+            color: #1E90FF; /* Azul mais escuro */
+            font-size: 2.5em;
+            margin-top: 50px;
+        }
+        .container {
+            width: 50%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .input-nomes {
+            width: 80%;
+            padding: 10px;
+            font-size: 1.2em;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background-color: #F0F8FF; /* Azul claro suave para o fundo da área de texto */
+            margin-bottom: 20px;
+            transition: background-color 0.3s ease-in-out;
+        }
+        .input-nomes:focus {
+            background-color: #E0FFFF; /* Azul muito claro quando em foco */
+            border-color: #1E90FF; /* Cor da borda quando em foco */
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1.2em;
+            background-color: #1E90FF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #4682B4;
+        }
+        p {
+            font-size: 1.2em;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <h1>Início do Sorteio</h1>
+    <div class="container">
+        <form action="{{ url_for('index') }}" method="POST">
+            <label for="nomes" style="font-size: 1.5em; color: #1E90FF;">Insira os nomes (separados por vírgula):</label><br><br>
+            <textarea id="nomes" name="nomes" class="input-nomes" rows="4" placeholder="Exemplo: João, Maria, Carlos"></textarea><br><br>
+            <button type="submit">Iniciar Sorteio</button>
+        </form>
+    </div>
+    <br>
+    <a href="{{ url_for('resultado') }}" style="display: inline-block; padding: 10px 20px; background-color: #1E90FF; color: white; text-decoration: none; border-radius: 5px; font-size: 1.2em;">Ir para o Resultado</a>
+</body>
+</html>

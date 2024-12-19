@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultado do Sorteio</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #ADD8E6; /* Azul claro */
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        h1 {
+            color: #1E90FF; /* Azul mais escuro */
+            font-size: 2.5em;
+            margin-top: 50px;
+        }
+        h2 {
+            color: #2F4F4F; /* Cor mais suave para o nome sorteado */
+            font-size: 2em;
+            margin-top: 20px;
+        }
+        img {
+            margin-top: 30px;
+            width: 50%;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        p {
+            font-size: 1.2em;
+            color: #555;
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #1E90FF;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+        }
+        a:hover {
+            background-color: #4682B4;
+        }
+    </style>
+</head>
+<body>
+    <h1>Resultado do Sorteio</h1>
+    {% if nome and imagem %}
+        <h2>Nome sorteado: {{ nome }}</h2>
+        <img src="{{ url_for('static', filename='imagens/' + imagem) }}" alt="Imagem sorteada">
+    {% else %}
+        <p>Não há nomes ou imagens suficientes para o sorteio.</p>
+    {% endif %}
+    <br>
+    <a href="{{ url_for('index') }}">Voltar para a página inicial</a>
+</body>
+</html>
