@@ -1,2 +1,2 @@
 # joguinho
-quem beber não jogue
+Se beber não jogue
