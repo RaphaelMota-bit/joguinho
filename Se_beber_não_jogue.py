@@ -16,47 +16,64 @@ if not os.path.exists(IMAGEM_DIR):
 else:
     print(f"O diretório das imagens é: {IMAGEM_DIR}")
 
-
-# Caminho para as imagens dentro da pasta 'static/imagens'
-#IMAGEM_DIR = os.path.join("static" , "imagens")
-
 # Listar todas as imagens na pasta 'static/imagens'
-imagens = [f for f in os.listdir(IMAGEM_DIR) if f.endswith(('.jpg', '.jpeg', '.png', '.gif'))]
+todas_imagens = [f for f in os.listdir(IMAGEM_DIR) if f.endswith(('.jpg', '.jpeg', '.png', '.gif'))]
 
-# Lista de nomes
+# Lista de nomes e contador
+nomes_originais = []
 nomes = []
+imagens_disponiveis = todas_imagens.copy()
+contador = 0
 
 # Rotas
 @app.route("/", methods=["GET", "POST"])
 def index():
-    global nomes
+    global nomes_originais, nomes, contador
     if request.method == "POST":
         # Receber nomes do formulário
         nomes_input = request.form.get("nomes")
         if nomes_input:
-            nomes = [nome.strip() for nome in nomes_input.split(",") if nome.strip()]
+            nomes_originais = [nome.strip() for nome in nomes_input.split(",") if nome.strip()]
+            nomes = nomes_originais.copy()
+            contador = len(nomes)  # Inicializar o contador com o número de nomes
         return redirect(url_for("resultado"))
     return render_template("index.html")
 
 @app.route("/resultado", methods=["GET"])
 def resultado():
-    global nomes, imagens
+    global nomes, imagens_disponiveis, contador
 
-    if not nomes or not imagens:
-        return render_template("resultado.html", nome=None, imagem=None)
+    if not nomes or not imagens_disponiveis:
+        return render_template(
+            "resultado.html",
+            nome=None,
+            imagem=None,
+            mensagem="Não há nomes ou imagens suficientes para o sorteio."
+        )
 
     # Sortear um nome e uma imagem
     nome_sorteado = random.choice(nomes)
     nomes.remove(nome_sorteado)
 
-    imagem_sorteada = random.choice(imagens)
-    imagens.remove(imagem_sorteada)
+    imagem_sorteada = random.choice(imagens_disponiveis)
+    imagens_disponiveis.remove(imagem_sorteada)
 
-    # Caminho da imagem sorteada
-    caminho_imagem = os.path.join(IMAGEM_DIR, imagem_sorteada)
-# Apenas envie o nome do arquivo (sem o caminho 'static/imagens')
-    return render_template("resultado.html", nome=nome_sorteado, imagem=imagem_sorteada)
+    # Decrementar o contador
+    contador -= 1
 
+    # Reiniciar listas e contador se o contador chegar a 0
+    if contador == 0:
+        nomes = nomes_originais.copy()
+        imagens_disponiveis = todas_imagens.copy()
+        contador = len(nomes)  # Reiniciar o contador
+
+    return render_template(
+        "resultado.html",
+        nome=nome_sorteado,
+        imagem=imagem_sorteada,
+        mensagem=None,
+        contador=contador
+    )
 
 if __name__ == "__main__":
     app.run(debug=True)

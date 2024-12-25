@@ -45,17 +45,29 @@
         a:hover {
             background-color: #4682B4;
         }
+        .link-container {
+            margin-top: 30px;
+        }
     </style>
 </head>
 <body>
     <h1>Resultado do Sorteio</h1>
+
     {% if nome and imagem %}
         <h2>Nome sorteado: {{ nome }}</h2>
         <img src="{{ url_for('static', filename='imagens/' + imagem) }}" alt="Imagem sorteada">
+        {% if contador %}
+            <p>Restam {{ contador }} sorteios.</p>
+        {% endif %}
     {% else %}
         <p>Não há nomes ou imagens suficientes para o sorteio.</p>
     {% endif %}
-    <br>
-    <a href="{{ url_for('index') }}">Voltar para a página inicial</a>
+
+    <div class="link-container">
+        <a href="{{ url_for('index') }}">Voltar para a página inicial</a>
+        {% if not nome or not imagem %}
+            <a href="{{ url_for('index') }}">Adicionar mais nomes</a>
+        {% endif %}
+    </div>
 </body>
 </html>
